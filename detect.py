@@ -5,6 +5,7 @@ pen_cascade = cv2.CascadeClassifier('classifier/pen_2.xml')
 handdrill_cascade = cv2.CascadeClassifier('classifier/handDrill.xml')
 strawberry_cascade = cv2.CascadeClassifier('classifier/strawberry_classifier.xml')
 apple_cascade = cv2.CascadeClassifier('classifier/apple.xml')
+chair_cascade = cv2.CascadeClassifier('classifier/chair.xml')
 
 
 cap = cv2.VideoCapture(0)
@@ -19,24 +20,23 @@ while (True):
                         minSize=(50, 50))
     for (x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-        cv2.putText(img, 'face', (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 0, 0))
+        cv2.putText(img, 'face', (x, y), cv2.FONT_HERSHEY_PLAIN, 2.0, (255, 0, 0),2)
     
     pens = pen_cascade.detectMultiScale(gray,
-                        scaleFactor=1.2,
+                        scaleFactor=1.3,
                         minNeighbors=5,
                         minSize=(50, 50))
     for (x,y,w,h) in pens:
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-        cv2.putText(img, 'pen', (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 0, 0))
+        cv2.putText(img, 'pen', (x, y), cv2.FONT_HERSHEY_PLAIN, 2.0, (255, 0, 0),2)
 
     handdrill = handdrill_cascade.detectMultiScale(gray,
                         scaleFactor=5,
                         minNeighbors=10,
                         minSize=(50, 50))
     for (x,y,w,h) in handdrill:
-        if (w<300):
-            cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-            cv2.putText(img, 'hand drill', (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 0, 0))
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        cv2.putText(img, 'hand drill', (x, y), cv2.FONT_HERSHEY_PLAIN, 2.0, (255, 0, 0),2)
 
     '''apple = apple_cascade.detectMultiScale(gray,
                         scaleFactor=5,
@@ -46,6 +46,14 @@ while (True):
         if (w<300):
             cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
             cv2.putText(img, 'apple', (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 0, 0))'''
+    
+    chair = chair_cascade.detectMultiScale(gray,
+                        scaleFactor=5,
+                        minNeighbors=10,
+                        minSize=(150, 150))
+    for (x,y,w,h) in chair:
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        cv2.putText(img, 'chair', (x, y), cv2.FONT_HERSHEY_PLAIN, 2.0, (255, 0, 0),2)
 
     cv2.imshow('img',img)
     ch = cv2.waitKey(5) & 0xFF

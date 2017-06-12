@@ -21,14 +21,13 @@ class ImageFeature(object):
 def loadModel():
     dataBase = dict([('SIFT', [])])
     sift = cv2.xfeatures2d.SIFT_create(nfeatures=250)
-    #sift = cv2.ORB_create()
+    #sift = cv2.xfeatures2d.SURF_create(400)
 
-    for imageFile in os.listdir("modelos"):
-        colorImage = cv2.imread("modelos/" + str(imageFile))
+    for imageFile in os.listdir("train-image"):
+        colorImage = cv2.imread("train-image/" + str(imageFile))
         currentImage = cv2.cvtColor(colorImage, cv2.COLOR_BGR2GRAY)
 
         kp, desc = sift.detectAndCompute(currentImage, None)
-        #desc = np.float32(desc)
         dataBase["SIFT"].append(ImageFeature(imageFile, currentImage.shape, colorImage, kp, desc))
     return dataBase
     
